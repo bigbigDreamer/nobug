@@ -19,7 +19,6 @@ jobs:
       - run: mkdocs build --strict
       # Generate CNAME File
       - run: echo bug.js.org > CNAME
-      - run: echo bug.js.org > docs/CNAME
       - uses: mhausenblas/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
