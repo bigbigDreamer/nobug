@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Rebuild-everything:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout # 将仓库内master分支的内容下载到工作目录
+        uses: actions/checkout@v4 # 脚本来自 https://github.com/actions/checkout
+        with:
+          ref: main
+          fetch-depth: 0
+      # Install packages
+      - run: pip install -r .requirements.txt
+      - run: mkdocs build --strict
+      # Generate CNAME File
+      - run: echo bug.js.org > CNAME
+      - run: echo bug.js.org > docs/CNAME
+      - uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_DOMAIN: bug.js.org
+          CONFIG_FILE: mkdocs.yml
+          REQUIREMENTS: .requirements.txt
