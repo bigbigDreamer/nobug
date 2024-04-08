@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       # Install packages
       - run: pip install -r .requirements.txt
-      - run: mkdocs build
+      - run: mkdocs build --strict
       # Generate CNAME File
       - run: echo bug.js.org > CNAME
       - uses: mhausenblas/mkdocs-deploy-gh-pages@master
